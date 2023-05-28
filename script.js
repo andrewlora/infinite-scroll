@@ -6,11 +6,12 @@ let imagesLoaded = 0;
 let totalImages = 0;
 let photosArray = [];
 
-// Unsplash API
-const count = 30;
 // Normally, don't store API Keys like this, but an exception made here because it is free, and the data is publicly available!
 const apiKey = "jFgS8tteGD425f4oZfygQVaVnD6gt6GucN2yyz3xFek";
-const apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
+
+function setApiURL(count) {
+  return `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
+}
 
 // Check if all images were loaded
 function imageLoaded() {
@@ -56,16 +57,15 @@ function displayPhotos() {
 }
 
 // Get photos from Unsplash API
-async function getPhotos() {
+async function getPhotos(count) {
   try {
-    const response = await fetch(apiUrl);
+    const response = await fetch(setApiURL(count));
     photosArray = await response.json();
     displayPhotos();
   } catch (error) {
     // Catch Error Here
   }
 }
-`   `;
 
 // Check to see if scrolling near bottom of page, Load More Photos
 window.addEventListener("scroll", () => {
@@ -74,9 +74,9 @@ window.addEventListener("scroll", () => {
     ready
   ) {
     ready = false;
-    getPhotos();
+    getPhotos(30);
   }
 });
 
 // On Load
-getPhotos();
+getPhotos(3);
